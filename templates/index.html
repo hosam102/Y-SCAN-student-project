@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="فحص استطلاعي دفاعي محدود لإعدادات النطاقات المصرح بها.">
+  <title>Y-SCAN | بوابة الامتثال المؤسسي</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js" defer></script>
+  <style>
+    :root{color-scheme:dark;--bg:#07111d;--panel:#0d1b2a;--panel2:#102338;--line:#1e3850;--text:#e8f0f7;--muted:#9bb0c2;--cyan:#51d6d0;--blue:#619cff;--green:#62dfa4;--amber:#ffc968;--red:#ff7181}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#173754 0,transparent 42%),var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;line-height:1.7}
+    .wrap{width:min(1120px,calc(100% - 32px));margin:auto}.top{padding:32px 0 20px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:13px}.mark{width:44px;height:44px;border:1px solid var(--cyan);border-radius:12px;display:grid;place-items:center;color:var(--cyan);font-weight:900;font-size:20px;box-shadow:0 0 22px #51d6d033}.brand h1{font-size:clamp(20px,3vw,28px);margin:0}.brand p{margin:0;color:var(--muted);font-size:13px}.tag{margin-right:auto;color:var(--cyan);font-size:12px;border:1px solid #51d6d044;border-radius:99px;padding:5px 11px}
+    main{padding:30px 0 48px}.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:20px}.panel{background:linear-gradient(145deg,#102238,#0a1725);border:1px solid var(--line);border-radius:18px;padding:23px;box-shadow:0 16px 50px #0003}.panel h2{font-size:18px;margin:0 0 6px}.sub{color:var(--muted);font-size:13px;margin:0 0 18px}.field{display:flex;gap:10px}.field input{min-width:0;flex:1;background:#071320;border:1px solid #2b4961;color:var(--text);border-radius:10px;padding:13px 14px;font-size:15px;direction:ltr;text-align:left;outline:none}.field input:focus{border-color:var(--cyan)}button{font:inherit}.primary{border:0;border-radius:10px;background:linear-gradient(120deg,#40cfc8,#509bf0);color:#06131e;font-weight:800;padding:11px 18px;cursor:pointer;white-space:nowrap}.primary:disabled{opacity:.55;cursor:wait}.consent{display:flex;align-items:flex-start;gap:9px;color:#b8c9d7;font-size:12px;margin:14px 0}.consent input{accent-color:var(--cyan);margin-top:5px}.notice{color:var(--muted);font-size:11px;border-right:2px solid var(--amber);padding-right:10px}.statusline{display:flex;justify-content:space-between;color:var(--muted);font-size:12px;margin-bottom:14px}.stage-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stage{padding:12px 10px;border:1px solid var(--line);border-radius:12px;background:#0a1724;opacity:.65;transition:.25s}.stage .num{display:block;color:var(--cyan);font-size:11px;letter-spacing:.08em}.stage b{font-size:12px}.stage.active{opacity:1;border-color:var(--cyan);box-shadow:0 0 18px #51d6d033;transform:translateY(-2px)}.stage.done{opacity:1;border-color:#62dfa477}.terminal{margin-top:14px;background:#050d15;border:1px solid #1b2b3b;border-radius:12px;padding:12px;height:126px;overflow:auto;color:#8edbc9;font:12px/1.8 ui-monospace,monospace;direction:rtl}.terminal div:before{content:"> ";color:var(--blue)}
+    .results{display:none;margin-top:20px}.results.show{display:block}.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.metric{border:1px solid var(--line);background:#0a1724;border-radius:14px;padding:16px}.metric small{display:block;color:var(--muted)}.metric strong{display:block;font-size:19px;margin-top:4px}.chartbox{height:160px;display:grid;place-items:center}.chartbox canvas{max-height:150px}.compliance{display:grid;gap:6px;font-size:12px;color:#c6d5df}.compliance span:before{content:"• ";color:var(--cyan)}.code{font-family:ui-monospace,monospace;color:var(--cyan);direction:ltr;display:inline-block}.result-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}.secondary{background:transparent;border:1px solid var(--cyan);color:var(--cyan);border-radius:10px;padding:10px 15px;cursor:pointer}.error{display:none;border:1px solid #ff718155;background:#ff718110;color:#ffb5bd;padding:10px 13px;border-radius:10px;margin-top:12px;font-size:13px}.error.show{display:block}.foot{border-top:1px solid var(--line);padding:20px 0 28px;color:#96aabc;font-size:11px}.foot strong{color:#c7d7e4}.foot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.foot p{margin:5px 0}
+    @media(max-width:800px){.hero{grid-template-columns:1fr}.result-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.field{flex-direction:column}.primary{width:100%}.stage-grid{grid-template-columns:repeat(2,1fr)}.result-grid,.foot-grid{grid-template-columns:1fr}.tag{display:none}.panel{padding:17px}}
+  </style>
+</head>
+<body>
+<header class="top"><div class="wrap brand"><div class="mark">Y</div><div><h1>Y-SCAN <span style="color:var(--cyan)">Enterprise</span></h1><p>بوابة الاستطلاع الأولي للامتثال والأمن</p></div><span class="tag">فحص دفاعي محدود</span></div></header>
+<main class="wrap">
+  <div class="hero">
+    <section class="panel">
+      <h2>ابدأ مراجعة إعدادات النطاق</h2><p class="sub">فحوصات HTTP وDNS استطلاعية منخفضة الأثر، للنطاقات العامة المصرح بها فقط.</p>
+      <form id="auditForm">
+        <label for="target" class="sub" style="display:block;margin-bottom:7px">اسم النطاق</label>
+        <div class="field"><input id="target" name="target" type="text" placeholder="example.com" autocomplete="url" required maxlength="253"><button id="startBtn" class="primary" type="submit">بدء التدقيق</button></div>
+        <label class="consent"><input id="authorized" type="checkbox" required><span>أؤكد أنني مالك هذا النطاق أو أملك تفويضاً صريحاً لإجراء هذه الفحوصات عليه.</span></label>
+      </form>
+      <div class="notice">لا تنفذ هذه الأداة استغلالاً أو تخمين كلمات مرور. النتائج أولية ولا تمثل شهادة PCI-DSS أو ISO 27001 أو رأياً قانونياً.</div>
+      <div id="errorBox" class="error" role="alert"></div>
+    </section>
+    <section class="panel">
+      <div class="statusline"><span>مراحل التدقيق</span><span id="stageStatus">بانتظار البدء</span></div>
+      <div class="stage-grid" id="stageGrid">
+        <div class="stage"><span class="num">01 / DNS</span><b>النطاق والسجلات</b></div>
+        <div class="stage"><span class="num">02 / HTTP</span><b>الترويسات والجلسات</b></div>
+        <div class="stage"><span class="num">03 / HYGIENE</span><b>نظافة الملفات العامة</b></div>
+        <div class="stage"><span class="num">04 / STRUCTURE</span><b>بنية الموقع</b></div>
+        <div class="stage"><span class="num">05 / SERVICES</span><b>توفر الخدمات</b></div>
+        <div class="stage"><span class="num">06 / REPORT</span><b>الامتثال والتقرير</b></div>
+      </div>
+      <div id="terminalLog" class="terminal" aria-live="polite"><div>جاهز. أدخل نطاقاً عاماً وأكد التفويض للبدء.</div></div>
+    </section>
+  </div>
+  <section class="panel results" id="results" aria-live="polite">
+    <h2>ملخص النتيجة</h2><p class="sub">الواجهة تعرض مؤشرات موجزة فقط؛ لا تعرض عناوين IP أو مسارات الملفات أو نتائج المنافذ التفصيلية.</p>
+    <div class="result-grid">
+      <div class="metric"><small>مؤشر الجاهزية الأولي</small><div class="chartbox"><canvas id="readinessChart" aria-label="مؤشر الجاهزية"></canvas></div><strong id="scoreText">—</strong></div>
+      <div class="metric"><small>أثر تشغيلي تقديري إرشادي</small><strong id="impactText">—</strong><small>ليس تقديراً مالياً أو توقعاً للخسائر.</small></div>
+      <div class="metric"><small>حالة المعايير</small><div id="compliance" class="compliance"></div></div>
+      <div class="metric"><small>رمز التحقق</small><strong id="verification" class="code">—</strong><small>احتفظ به لطلب التقرير.</small></div>
+    </div>
+    <div class="result-actions"><button id="reportBtn" class="primary" type="button">طلب التقرير عبر واتساب</button><a id="downloadLink" class="secondary" href="#" style="text-decoration:none;display:none">تنزيل التقرير المؤقت</a></div>
+  </section>
+</main>
+<footer class="foot"><div class="wrap foot-grid"><div><strong>ميثاق الأخلاق المهنية</strong><p>لا تفحص إلا ما تملكه أو لديك تفويض موثق لفحصه.</p></div><div><strong>سرية البيانات</strong><p>تُعرض خلاصة محدودة في المتصفح. التقارير تخزن مؤقتاً وقد تحذف عند إعادة تشغيل الخادم.</p></div><div><strong>إخلاء المسؤولية</strong><p>الأداة تعليمية واستطلاعية؛ لا تثبت المطابقة ولا تغني عن مراجعة مختص أو المتطلبات الرسمية.</p></div></div></footer>
+<script>
+(() => {
+  const form = document.getElementById('auditForm');
+  const stages = [...document.querySelectorAll('.stage')];
+  const log = document.getElementById('terminalLog');
+  const startBtn = document.getElementById('startBtn');
+  const stageStatus = document.getElementById('stageStatus');
+  const errorBox = document.getElementById('errorBox');
+  let chart = null;
+  let verificationToken = '';
+  let targetValue = '';
+  const stageMessages = [
+    'جارٍ التحقق من سجلات DNS العامة…', 'جارٍ مراجعة اتصال HTTP وخصائص الاستجابة…',
+    'جارٍ اختبار مسارات ملفات عامة محددة…', 'جارٍ تحليل عينة صغيرة من الروابط الداخلية…',
+    'جارٍ التحقق من استجابة منافذ الخدمات المحددة…', 'جارٍ احتساب المؤشر وإعداد التقرير المؤقت…'
+  ];
+  function addLog(message) {
+    const line = document.createElement('div');
+    line.textContent = new Date().toLocaleTimeString('ar');
+    line.textContent += ' — ' + message;
+    log.appendChild(line);
+    log.scrollTop = log.scrollHeight;
+  }
+  function paintStages(activeIndex) {
+    stages.forEach((item, index) => {
+      item.classList.toggle('active', index === activeIndex);
+      item.classList.toggle('done', index < activeIndex || activeIndex === stages.length);
+    });
+    stageStatus.textContent = activeIndex >= stages.length ? 'اكتمل' : `المرحلة ${activeIndex + 1} من 6`;
+  }
+  function animateProgress() {
+    let index = 0;
+    paintStages(index);
+    addLog(stageMessages[index]);
+    const timer = setInterval(() => {
+      index += 1;
+      if (index >= stages.length) { clearInterval(timer); return; }
+      paintStages(index);
+      addLog(stageMessages[index]);
+    }, 700);
+    return timer;
+  }
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    errorBox.classList.remove('show');
+    document.getElementById('results').classList.remove('show');
+    if (!document.getElementById('authorized').checked) return;
+    const timer = animateProgress();
+    startBtn.disabled = true;
+    log.textContent = '';
+    targetValue = document.getElementById('target').value.trim();
+    try {
+      const response = await fetch('/api/audit', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({target: targetValue, authorized: true})
+      });
+      const data = await response.json();
+      clearInterval(timer);
+      if (!response.ok) throw new Error(data.error || 'تعذر إتمام الفحص.');
+      paintStages(stages.length);
+      addLog('اكتملت المراجعة؛ أُنشئ التقرير المؤقت بنجاح.');
+      verificationToken = data.verification_code;
+      document.getElementById('scoreText').textContent = `${data.score}/100 — ${data.label}`;
+      document.getElementById('impactText').textContent = `$${Number(data.estimated_impact_usd).toLocaleString('en-US')}`;
+      document.getElementById('verification').textContent = verificationToken;
+      const items = [['PCI-DSS v4.0', data.compliance.pci], ['ISO 27001', data.compliance.iso], ['البنك المركزي اليمني', data.compliance.yemen]];
+      document.getElementById('compliance').replaceChildren(...items.map(([name, text]) => {
+        const node = document.createElement('span'); node.textContent = `${name}: ${text}`; return node;
+      }));
+      if (chart) chart.destroy();
+      const ctx = document.getElementById('readinessChart');
+      chart = new Chart(ctx, {type: 'doughnut', data: {datasets: [{data: [data.score, 100-data.score], backgroundColor: ['#51d6d0','#20364b'], borderWidth: 0}]}, options: {cutout: '76%', plugins: {legend: {display: false}, tooltip: {enabled: false}}}});
+      document.getElementById('results').classList.add('show');
+      const download = document.getElementById('downloadLink');
+      download.href = `/report/${encodeURIComponent(verificationToken)}`;
+      download.style.display = 'inline-block';
+    } catch (error) {
+      clearInterval(timer);
+      stages.forEach(stage => stage.classList.remove('active'));
+      stageStatus.textContent = 'توقف الفحص';
+      addLog('توقف الفحص: ' + error.message);
+      errorBox.textContent = error.message;
+      errorBox.classList.add('show');
+    } finally { startBtn.disabled = false; }
+  });
+  document.getElementById('reportBtn').addEventListener('click', () => {
+    if (!verificationToken) return;
+    const accepted = window.confirm('التقرير محمي للمساعدة في حماية خصوصية المنشأة. سيفتح واتساب برسالة جاهزة تتضمن النطاق ورمز التحقق. لا ترسلها إلا إذا كنت مخولاً بطلب التقرير.');
+    if (!accepted) return;
+    const message = `مرحباً، أطلب استلام التقرير الخاص بالنطاق ${targetValue}، ورمز التحقق ${verificationToken}. أؤكد أنني مخول بطلب هذا التقرير.`;
+    const url = `https://api.whatsapp.com/send?phone=967781607965&text=${encodeURIComponent(message)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
+  });
+})();
+</script>
+</body>
+</html>
